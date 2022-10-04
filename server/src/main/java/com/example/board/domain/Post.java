@@ -15,7 +15,7 @@ import java.time.Instant;
 @Table(name = "\"post\"",
         indexes = {
             @Index(columnList = "title"),
-            @Index(columnList = "registeredAt")
+            @Index(columnList = "registered_at")
         }
 )
 @SQLDelete(sql = "UPDATE \"post\" SET DELETED_AT = NOW() where id = ?")
