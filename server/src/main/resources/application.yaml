@@ -20,6 +20,5 @@ spring:
       hibernate.default_batch_fetch_size: 100
   sql.init.mode: always
 jwt:
-  header: Authorization
   secret: dGVzdGluZy10aGlzaXNhanVzdHNpbXBsZS1zeW50YXgtdXNpbmdkYXNoY2FzZS1tZWFuaW5nbGVzcy1ldmVyeXdvcmQtaGFoYS13aG8tY2FyZXMtcmlnaHQK
   token-validity-in-seconds: 86400
