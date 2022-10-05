@@ -42,7 +42,9 @@ public class SecurityConfig {
                 .authorizeRequests(
                         auth -> auth
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-//                                .mvcMatchers()
+                                .mvcMatchers("/api/users/join").permitAll()
+                                .mvcMatchers("/api/users/login").permitAll()
+                                .anyRequest().authenticated()
                 )
                 .apply(new JwtSecurityConfig(jwtTokenProvider))
                 .and()

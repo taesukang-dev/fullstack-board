@@ -2,6 +2,8 @@ package com.example.board.service;
 
 import com.example.board.dto.UserDto;
 import com.example.board.dto.security.UserPrincipal;
+import com.example.board.exception.BoardApplicationException;
+import com.example.board.exception.ErrorCode;
 import com.example.board.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,6 +24,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         return userRepository.findByUsername(username)
                 .map(UserDto::fromUser)
                 .map(UserPrincipal::from)
-                .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
+                .orElseThrow(() -> new BoardApplicationException(ErrorCode.USER_NOT_FOUND));
     }
 }
