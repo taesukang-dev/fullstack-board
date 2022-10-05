@@ -31,14 +31,28 @@ public class User {
     @Column(name = "deleted_at")
     private Timestamp deletedAt;
 
-
     public User(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
+    protected User(Long id, String username, String password) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
+
     public static User of(String username, String password) {
         return new User(username, password);
+    }
+
+    public static User makeFixture(Long id, String username, String password) {
+        return new User(
+                id,
+                username,
+                password
+        );
     }
 
     @PrePersist void registeredAt() { this.registerAt = Timestamp.from(Instant.now()); }

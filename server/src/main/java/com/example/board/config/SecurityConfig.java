@@ -44,6 +44,8 @@ public class SecurityConfig {
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                                 .mvcMatchers("/api/users/join").permitAll()
                                 .mvcMatchers("/api/users/login").permitAll()
+                                .mvcMatchers("/api/posts/list").permitAll()
+                                .mvcMatchers("/api/posts/post/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .apply(new JwtSecurityConfig(jwtTokenProvider))
