@@ -4,6 +4,8 @@ import com.example.board.domain.Comment;
 import com.example.board.domain.User;
 import com.example.board.dto.UserDto;
 import com.example.board.dto.response.UserJoinResponse;
+import com.example.board.exception.BoardApplicationException;
+import com.example.board.exception.ErrorCode;
 import com.example.board.jwt.JwtTokenProvider;
 import com.example.board.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,14 +27,14 @@ public class UserService {
     @Transactional
     public UserDto join(String username, String password) {
         userRepository.findByUsername(username)
-                .ifPresent(it -> { throw new RuntimeException("No!!!!!!!!!!!!"); });
+                .ifPresent(it -> { throw new BoardApplicationException(ErrorCode.DUPLICATED_USER); });
         return UserDto.fromUser(userRepository.save(User.of(username, passwordEncoder.encode(password))));
     }
 
     public String login(String username, String password) {
-        User user = userRepository.findByUsername(username).orElseThrow(() -> new NoSuchElementException("None of user"));
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new BoardApplicationException(ErrorCode.USER_NOT_FOUND));
         if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new RuntimeException("Invalid password");
+            throw new BoardApplicationException(ErrorCode.INVALID_PASSWORD);
         }
         ArrayList<String> roles = new ArrayList<>();
         roles.add(user.getRole().getName());
