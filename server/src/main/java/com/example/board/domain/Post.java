@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -18,7 +19,7 @@ import java.time.Instant;
             @Index(columnList = "registered_at")
         }
 )
-@SQLDelete(sql = "UPDATE \"post\" SET DELETED_AT = NOW() where id = ?")
+@SQLDelete(sql = "UPDATE post SET DELETED_AT = NOW() where id =?")
 @Where(clause = "deleted_at is null")
 @Entity
 public class Post {
@@ -42,11 +43,30 @@ public class Post {
     @Column(name = "deleted_at")
     private Timestamp deletedAt;
 
+    public void updatePost(String title, String content) {
+        if (StringUtils.hasText(title) && StringUtils.hasText(content)) {
+            this.title = title;
+            this.content = content;
+        } else if (StringUtils.hasText(title)) {
+            this.title = title;
+        } else if (StringUtils.hasText(content)) {
+            this.content = content;
+        }
+    }
 
     public Post(String title, String content, User user) {
         this.title = title;
         this.content = content;
         this.user = user;
+    }
+
+    protected Post(Long id, User user) {
+        this.id = id;
+        this.user = user;
+    }
+
+    public static Post makeFixture(Long id, User user) {
+        return new Post(id, user);
     }
 
     public static Post of(String username, String password, User user) {
