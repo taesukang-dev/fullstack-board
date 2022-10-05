@@ -16,16 +16,16 @@ import java.util.Optional;
 public class UserRepository {
     private final EntityManager em;
 
-    public UserDto save(User user) {
+    public User save(User user) {
         em.persist(user);
-        return UserDto.fromUser(user);
+        return user;
     }
 
-    public Optional<UserDto> findByUsername(String username) {
+    public Optional<User> findByUsername(String username) {
         try {
             User user = em.createQuery("select u from User u where u.username = :username", User.class)
                     .setParameter("username", username).getSingleResult();
-            return Optional.of(UserDto.fromUser(user));
+            return Optional.of(user);
         } catch (RuntimeException e) {
             return Optional.empty();
         }
