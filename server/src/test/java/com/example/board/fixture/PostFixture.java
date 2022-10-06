@@ -1,4 +1,4 @@
-package com.example.board.service.fixture;
+package com.example.board.fixture;
 
 import com.example.board.domain.Post;
 import com.example.board.domain.User;

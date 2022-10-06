@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,7 +24,7 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping("/list")
-    public Response<List<PostReadResponse>> list(@RequestParam int page) {
+    public Response<List<PostReadResponse>> list(@RequestParam(required = false, defaultValue = "0") int page) {
         return Response.success(postService.list(page)
                 .stream().map(PostReadResponse::fromPostDto)
                 .collect(Collectors.toList()));
@@ -36,7 +37,7 @@ public class PostController {
 
     @PostMapping("/write")
     public Response<PostWriteResponse> writePost(
-            @RequestBody PostWriteRequest postWriteRequest,
+            @RequestBody @Valid PostWriteRequest postWriteRequest,
             @AuthenticationPrincipal UserPrincipal userPrincipal
             ) {
         return Response.success(PostWriteResponse.of(postService.create(postWriteRequest.getTitle(), postWriteRequest.getContent(), userPrincipal.getUsername())));
@@ -45,7 +46,7 @@ public class PostController {
     @PutMapping("/{postId}/update")
     public Response<PostUpdateResponse> updatePost(
             @PathVariable Long postId,
-            @RequestBody PostWriteRequest postWriteRequest,
+            @RequestBody @Valid PostWriteRequest postWriteRequest,
             @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
         return Response.success(PostUpdateResponse.fromDto(postService.update(postId, postWriteRequest.getTitle(), postWriteRequest.getContent(), userPrincipal.getUsername())));

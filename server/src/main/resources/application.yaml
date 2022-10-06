@@ -21,4 +21,4 @@ spring:
   sql.init.mode: always
 jwt:
   secret: dGVzdGluZy10aGlzaXNhanVzdHNpbXBsZS1zeW50YXgtdXNpbmdkYXNoY2FzZS1tZWFuaW5nbGVzcy1ldmVyeXdvcmQtaGFoYS13aG8tY2FyZXMtcmlnaHQK
-  token-validity-in-seconds: 86400
+  token-validity-in-seconds: 86400000000
