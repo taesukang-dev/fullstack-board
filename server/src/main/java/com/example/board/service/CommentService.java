@@ -55,11 +55,13 @@ public class CommentService {
                 .orElseThrow(() -> new BoardApplicationException(ErrorCode.COMMENT_NOT_FOUND));
         Comment comment = Comment.of(content, post, user, parent);
         parent.addChild(comment);
-        return CommentDto.fromComment(parent);
+        return CommentDto.fromComment(commentRepository.save(comment));
     }
 
     @Transactional
-    public void delete(String username, Long commentId) {
+    public void delete(Long postId, String username, Long commentId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new BoardApplicationException(ErrorCode.POST_NOT_FOUND));
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new BoardApplicationException(ErrorCode.USER_NOT_FOUND));
         Comment comment = commentRepository.findById(commentId)
@@ -67,11 +69,9 @@ public class CommentService {
         if (comment.getUser() != user) {
             throw new BoardApplicationException(ErrorCode.UNAUTHORIZED_ACCESS);
         }
-        if (comment.getChild().isEmpty()) {
-            commentRepository.delete(comment);
-        } else {
-            comment.getChild().forEach(commentRepository::delete);
-            commentRepository.delete(comment);
+        if (comment.getPost() != post) {
+            throw new BoardApplicationException(ErrorCode.POST_NOT_FOUND);
         }
+        commentRepository.delete(comment);
     }
 }

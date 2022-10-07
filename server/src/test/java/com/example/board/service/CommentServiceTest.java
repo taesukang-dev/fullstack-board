@@ -108,7 +108,7 @@ class CommentServiceTest {
         Long postId = postService.create("title", "content", "test");
         CommentDto comment = commentService.create(postId, user.getUsername(), "content");
         // when
-        commentService.delete(user.getUsername(), comment.getId());
+        commentService.delete(postId, user.getUsername(), comment.getId());
         // then
         assertThat(commentService.commentList(postId).size()).isEqualTo(0);
     }
@@ -121,7 +121,7 @@ class CommentServiceTest {
         // when
         CommentDto child = commentService.createdByParent(postId, user.getUsername(), parent.getId(), "content22");
         // then
-        commentService.delete(user.getUsername(), parent.getId());
+        commentService.delete(postId, user.getUsername(), parent.getId());
 
         assertThat(commentRepository.findById(child.getId())).isNotPresent();
     }
@@ -134,7 +134,18 @@ class CommentServiceTest {
         CommentDto parent = commentService.create(postId, user.getUsername(), "content");
         // when
         // then
-        assertThatThrownBy(() -> commentService.delete(null, parent.getId()))
+        assertThatThrownBy(() -> commentService.delete(postId, null, parent.getId()))
+                .isInstanceOf(BoardApplicationException.class);
+    }
+
+    @Test
+    void 댓글_삭제_게시글이_없는_경우() throws Exception {
+        UserDto user = userService.join("test", "test");
+        Long postId = postService.create("title", "content", "test");
+        CommentDto parent = commentService.create(postId, user.getUsername(), "content");
+        // when
+        // then
+        assertThatThrownBy(() -> commentService.delete(null, user.getUsername(), parent.getId()))
                 .isInstanceOf(BoardApplicationException.class);
     }
 
@@ -145,7 +156,7 @@ class CommentServiceTest {
         CommentDto comment = commentService.create(postId, user.getUsername(), "content");
         // when
         // then
-        assertThatThrownBy(() -> commentService.delete(user.getUsername(), null))
+        assertThatThrownBy(() -> commentService.delete(postId, user.getUsername(), null))
                 .isInstanceOf(BoardApplicationException.class);
     }
 
@@ -157,7 +168,7 @@ class CommentServiceTest {
         CommentDto comment = commentService.create(postId, user.getUsername(), "content");
         // when
         // then
-        assertThatThrownBy(() -> commentService.delete("notTest", comment.getId()))
+        assertThatThrownBy(() -> commentService.delete(postId, "notTest", comment.getId()))
                 .isInstanceOf(BoardApplicationException.class);
     }
 }
