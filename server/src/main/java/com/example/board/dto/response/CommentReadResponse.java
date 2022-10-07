@@ -33,29 +33,17 @@ public class CommentReadResponse {
     }
 
     public static CommentReadResponse fromCommentDto(CommentDto comment) {
-
-        if (comment.getChild().size() > 0) {
-            List<CommentReadResponse> convertedChild = comment.getChild().stream()
-                    .map(e -> new CommentReadResponse(e.getId(), e.getContent(), e.getUser().getId(), e.getPost().getId(), convertChild(e.getChild()), e.getRegisterAt()))
-                    .collect(Collectors.toList());
-            return new CommentReadResponse(
-                    comment.getId(),
-                    comment.getContent(),
-                    comment.getUser().getId(),
-                    comment.getPost().getId(),
-                    convertedChild,
-                    comment.getRegisterAt()
-            );
-        } else {
-            return new CommentReadResponse(
-                    comment.getId(),
-                    comment.getContent(),
-                    comment.getUser().getId(),
-                    comment.getPost().getId(),
-                    List.of(),
-                    comment.getRegisterAt()
-            );
-        }
+        List<CommentReadResponse> convertedChild = comment.getChild().stream()
+                .map(e -> new CommentReadResponse(e.getId(), e.getContent(), e.getUser().getId(), e.getPost().getId(), convertChild(e.getChild()), e.getRegisterAt()))
+                .collect(Collectors.toList());
+        return new CommentReadResponse(
+                comment.getId(),
+                comment.getContent(),
+                comment.getUser().getId(),
+                comment.getPost().getId(),
+                convertedChild,
+                comment.getRegisterAt()
+        );
     }
 
     private static List<CommentReadResponse> convertChild(List<CommentDto> comments) {

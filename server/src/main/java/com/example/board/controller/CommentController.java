@@ -1,7 +1,8 @@
 package com.example.board.controller;
 
-import com.example.board.dto.CommentDto;
+import com.example.board.dto.request.CommentWriteRequest;
 import com.example.board.dto.response.CommentReadResponse;
+import com.example.board.dto.response.CommentWriteResponse;
 import com.example.board.dto.response.Response;
 import com.example.board.dto.security.UserPrincipal;
 import com.example.board.service.CommentService;
@@ -10,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,22 +28,44 @@ public class CommentController {
                 .collect(Collectors.toList()));
     }
 
-//    @PostMapping("/{postId}")
-//    public void create(
-//            @PathVariable Long postId,
-//            @AuthenticationPrincipal UserPrincipal userPrincipal,
-//            CommentWriteRequest commentWriteRequest // it has a parent id? or not
-//    ) {
-//
-//    }
-//
-//    @DeleteMapping("/{postId}")
-//    public void delete(
-//            @PathVariable Long postId,
-//            CommentDeleteRequest commentDeleteRequest
-//    ) {
-//
-//    }
+    /**
+     * @param postId
+     * @param userPrincipal
+     * @param commentWriteRequest doesn't have a parent
+     */
+    @PostMapping("/{postId}")
+    public Response<CommentWriteResponse> create(
+            @PathVariable Long postId,
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
+            @RequestBody @Valid CommentWriteRequest commentWriteRequest
+    ) {
+        return Response.success(CommentWriteResponse.fromCommentDto(commentService.create(postId, userPrincipal.getUsername(), commentWriteRequest.getContent())));
+    }
+
+    /**
+     * @param postId
+     * @param userPrincipal
+     * @param commentWriteRequest have a parent
+     */
+    @PostMapping("/{postId}/{parentId}")
+    public Response<CommentWriteResponse> create(
+            @PathVariable Long postId,
+            @PathVariable Long parentId,
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
+            @RequestBody @Valid CommentWriteRequest commentWriteRequest
+    ) {
+        return Response.success(CommentWriteResponse.fromCommentDto(commentService.createdByParent(postId, userPrincipal.getUsername(), parentId, commentWriteRequest.getContent())));
+    }
+
+    @DeleteMapping("/{postId}/{commentId}")
+    public Response<Void> delete(
+            @PathVariable Long postId,
+            @PathVariable Long commentId,
+            @AuthenticationPrincipal UserPrincipal userPrincipal
+    ) {
+       commentService.delete(postId, userPrincipal.getUsername(), commentId);
+        return Response.success();
+    }
 
 
 }
