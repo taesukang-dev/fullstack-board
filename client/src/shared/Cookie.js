@@ -8,7 +8,7 @@ const getCookie = (name) => {
 
 const deleteCookie = (name) => {
     let date = new Date('2020-01-01').toUTCString()
-    document.cookie = "Bearer " + name + '=; expoires=' + date
+    document.cookie = "Bearer " + name + '=; expires=' + date
 }
 
 export {getCookie, deleteCookie}
