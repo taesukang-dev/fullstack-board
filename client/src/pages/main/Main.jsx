@@ -1,13 +1,16 @@
 import {useState} from "react";
 import {useQuery} from "@tanstack/react-query";
-import {getPosts} from "../shared/api/api";
-import Post from "../component/post/Post";
+import {getPosts} from "../../shared/api/api";
+import Post from "../../component/post/Post";
+import {GridBox} from "./Main.style";
 
 const Main = () => {
     let [posts, setPosts] = useState([]);
 
     let result = useQuery(['posts'], () => getPosts(), {
-        onSuccess: (data) => { setPosts(data.result)}
+        onSuccess: (data) => {
+            setPosts(data.result)
+        }
     })
 
     return (
@@ -15,9 +18,12 @@ const Main = () => {
             {
                 result.isLoading && <div>Loading...</div>
             }
-            {
-                posts.map((e, i) => <Post key={i} post={e}/>)
-            }
+            <GridBox>
+                {
+                    posts.map((e, i) => <Post key={i} post={e}/>)
+                }
+            </GridBox>
+
         </>
     )
 }
