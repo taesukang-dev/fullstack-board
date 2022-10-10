@@ -16,11 +16,11 @@ public class GlobalControllerAdvice {
                 .body(Response.error(e.getErrorCode().name()));
     }
 
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<?> applicationHandler(RuntimeException e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(Response.error(ErrorCode.INTERNAL_SERVER_ERROR.name()));
-    }
+//    @ExceptionHandler(RuntimeException.class)
+//    public ResponseEntity<?> applicationHandler(RuntimeException e) {
+//        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                .body(Response.error(ErrorCode.INTERNAL_SERVER_ERROR.name()));
+//    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> applicationHandler(MethodArgumentNotValidException e) {

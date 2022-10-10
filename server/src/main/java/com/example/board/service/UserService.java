@@ -9,6 +9,7 @@ import com.example.board.exception.ErrorCode;
 import com.example.board.jwt.JwtTokenProvider;
 import com.example.board.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
+@Slf4j
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
@@ -26,6 +28,7 @@ public class UserService {
 
     @Transactional
     public UserDto join(String username, String password) {
+        log.info("the username {}", username);
         userRepository.findByUsername(username)
                 .ifPresent(it -> { throw new BoardApplicationException(ErrorCode.DUPLICATED_USER); });
         return UserDto.fromUser(userRepository.save(User.of(username, passwordEncoder.encode(password))));
