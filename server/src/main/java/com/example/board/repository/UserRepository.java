@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
@@ -25,9 +26,13 @@ public class UserRepository {
 
     public Optional<User> findByUsername(String username) {
         try {
-            User user = em.createQuery("select u from User u where u.username = :username", User.class)
-                    .setParameter("username", username).getSingleResult();
-            return Optional.of(user);
+            return Optional.of(em.createQuery("select u from User u where u.username = :username", User.class)
+                    .setParameter("username", username).getSingleResult());
+        } catch (NonUniqueResultException e) {
+            return em.createQuery("select u from User u where u.username = :username", User.class)
+                    .setParameter("username", username)
+                    .getResultList()
+                    .stream().findAny();
         } catch (RuntimeException e) {
             return Optional.empty();
         }
