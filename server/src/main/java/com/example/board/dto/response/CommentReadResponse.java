@@ -19,27 +19,27 @@ import java.util.stream.Collectors;
 public class CommentReadResponse {
     private Long id;
     private String content;
-    private Long userId;
+    private String username;
     private Long postId;
     private List<CommentReadResponse> child;
     private Timestamp registerAt;
 
-    public CommentReadResponse(Long id, String content, Long userId, Long postId, Timestamp registerAt) {
+    public CommentReadResponse(Long id, String content, String username, Long postId, Timestamp registerAt) {
         this.id = id;
         this.content = content;
-        this.userId = userId;
+        this.username = username;
         this.postId = postId;
         this.registerAt = registerAt;
     }
 
     public static CommentReadResponse fromCommentDto(CommentDto comment) {
         List<CommentReadResponse> convertedChild = comment.getChild().stream()
-                .map(e -> new CommentReadResponse(e.getId(), e.getContent(), e.getUser().getId(), e.getPost().getId(), convertChild(e.getChild()), e.getRegisterAt()))
+                .map(e -> new CommentReadResponse(e.getId(), e.getContent(), e.getUser().getUsername(), e.getPost().getId(), convertChild(e.getChild()), e.getRegisterAt()))
                 .collect(Collectors.toList());
         return new CommentReadResponse(
                 comment.getId(),
                 comment.getContent(),
-                comment.getUser().getId(),
+                comment.getUser().getUsername(),
                 comment.getPost().getId(),
                 convertedChild,
                 comment.getRegisterAt()
@@ -53,7 +53,7 @@ public class CommentReadResponse {
                 new CommentReadResponse(
                         e.getId(),
                         e.getContent(),
-                        e.getUser().getId(),
+                        e.getUser().getUsername(),
                         e.getPost().getId(),
                         convertChild(e.getChild()),
                         e.getRegisterAt()

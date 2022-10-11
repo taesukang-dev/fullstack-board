@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 public class CommentWriteResponse {
     private Long id;
     private String content;
-    private Long userId;
+    private String username;
     private Long postId;
     private Timestamp registerAt;
 
@@ -23,7 +23,7 @@ public class CommentWriteResponse {
         return new CommentWriteResponse(
                 comment.getId(),
                 comment.getContent(),
-                comment.getUser().getId(),
+                comment.getUser().getUsername(),
                 comment.getPost().getId(),
                 comment.getRegisterAt()
         );
