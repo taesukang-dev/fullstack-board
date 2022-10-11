@@ -46,6 +46,7 @@ const ButtonBox = styled(motion.button)`
     color: ${(props) => props.color ? props.color : "#304458"};
     font-size: 16px;
     border: 1px solid #ABABAB;
+    cursor: pointer;
 `
 
 export default Button
