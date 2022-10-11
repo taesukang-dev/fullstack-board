@@ -7,6 +7,8 @@ import Login from "./pages/login/Login";
 import {useSelector} from "react-redux";
 import {useEffect} from "react";
 import SignedHeader from "./component/header/SignedHeader";
+import Detail from "./pages/detail/Detail";
+import Write from "./pages/write/Write";
 
 function App() {
     const name = useSelector((state) => state.user)
@@ -21,6 +23,9 @@ function App() {
                 <Route path={"/"} element={<Main />}/>
                 <Route path={"/signup"} element={<SignUp />} />
                 <Route path={"/login"} element={<Login />} />
+                <Route path={"/write"} element={<Write />} />
+                <Route path={"/detail/:id"} element={<Detail />} />
+                <Route path={"*"} element={<div>404</div>} />
             </Routes>
         </>
     );
