@@ -16,6 +16,18 @@ export const updatePost = (postId, title, content) => axiosInstance.put(`/posts/
 
 export const deletePost = (postId) => axiosInstance.delete(`/posts/${postId}/delete`).then(res => console.log(res))
 
+export const getComment = (postId) => axiosInstance.get(`/comments/${postId}`).then(res =>res)
+
+export const writeComment = (postId, content) => axiosInstance.post(`/comments/${postId}`,{
+    "content": content
+}).then(res => res)
+
+export const writeCommentByParent = (postId, parentId, content) => axiosInstance.post(`/comments/${postId}/${parentId}`,{
+    "content": content
+}).then(res => res)
+
+export const deleteComment = (postId, commentId) => axiosInstance.delete(`/comments/${postId}/${commentId}`).then(res => res)
+
 export const join = (username, password) => axiosInstance.post('/users/join',{
     "username": username,
     "password": password
@@ -27,4 +39,3 @@ export const login = (username, password) => axiosInstance.post('/users/login',{
 }).then(res => {
     document.cookie = 'x_auth' + '=' + 'Bearer ' + res.result
 })
-
