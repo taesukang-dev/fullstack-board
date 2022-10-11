@@ -1,11 +1,12 @@
 import * as s from './Detail.style'
 import {useNavigate, useParams} from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {deletePost, getPost, login, updatePost} from "../../shared/api/api";
 import Button from "../../element/Button";
 import {useSelector} from "react-redux";
 import Input from "../../element/Input";
+import Comments from "../../component/comment/Comments";
 
 const Detail = () => {
     let [post, setPost] = useState()
@@ -67,6 +68,7 @@ const Detail = () => {
                 {updateStatue ? <Input multiLine _onChange={(e) => setUpdateContent(e.target.value)}/>
                     : <div>{post?.content}</div>}
             </s.ContentGridBox>
+            { post && <Comments postId={post?.id}/>}
             <s.ButtonBox>
                 {updateStatue ? <Button _onClick={() => updateMutation.mutate()}
                         padding={"10px"}>수정완료</Button>

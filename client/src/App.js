@@ -9,12 +9,10 @@ import {useEffect} from "react";
 import SignedHeader from "./component/header/SignedHeader";
 import Detail from "./pages/detail/Detail";
 import Write from "./pages/write/Write";
+import Comment from "./component/comment/Comment";
 
 function App() {
     const name = useSelector((state) => state.user)
-    useEffect(() => {
-        console.log(name)
-    },[name])
 
     return (
         <>
