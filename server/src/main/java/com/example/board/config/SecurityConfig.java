@@ -52,8 +52,6 @@ public class SecurityConfig {
                                 .mvcMatchers("/api/users/login").permitAll()
                                 .mvcMatchers("/api/posts/list").permitAll()
                                 .mvcMatchers("/api/posts/post/**").permitAll()
-                                .mvcMatchers("/swagger-ui/index.html").permitAll()
-                                .mvcMatchers("/swagger-ui.html").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .apply(new JwtSecurityConfig(jwtTokenProvider))
