@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const GridBox = styled.table`
+export const GridBox = styled.div`
     display: flex;
     align-items: left;
     justify-content: center;

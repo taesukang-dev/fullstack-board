@@ -13,3 +13,8 @@ export const GridBox = styled.div`
 export const SideBox = styled.div`
     display: flex;
 `
+
+export const LoggedBox = styled.div`
+    display: flex;
+    align-items: center;
+`
