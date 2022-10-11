@@ -14,10 +14,15 @@ const Login = () => {
     let [password, setPassword] = useState()
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    let loginMutation = useMutation(() => login(username, password).then(res => {
-        navigate("/")
-        dispatch(setUserUp(username))
-    }).catch(e => alert('회원정보를 확인하세요. ' + e.response.data.resultCode)))
+    let loginMutation = useMutation(() => login(username, password),{
+        onSuccess: (data) => {
+            navigate("/")
+            dispatch(setUserUp(username))
+        },
+        onError: (data) => {
+            alert('회원정보를 확인하세요. ' + data.response.data.resultCode)
+        }
+    })
 
     return (
         <s.GridBox>
