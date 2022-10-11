@@ -24,6 +24,9 @@ const SignedHeader = () => {
                             dispatch(setUserUp(''))
                         }}
                 >로그아웃</Button>
+                <Button padding={"10px"}
+                        _onClick={() => navigate('/write')}
+                >글쓰기</Button>
             </s.LoggedBox>
         </s.GridBox>
     )
