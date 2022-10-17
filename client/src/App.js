@@ -5,11 +5,9 @@ import Header from "./component/header/Header";
 import SignUp from "./pages/signup/SignUp";
 import Login from "./pages/login/Login";
 import {useSelector} from "react-redux";
-import {useEffect} from "react";
 import SignedHeader from "./component/header/SignedHeader";
 import Detail from "./pages/detail/Detail";
 import Write from "./pages/write/Write";
-import Comment from "./component/comment/Comment";
 
 function App() {
     const name = useSelector((state) => state.user)
