@@ -1,5 +1,4 @@
 import * as s from './Comment.style'
-import {useState} from "react";
 import Text from "../../element/Text";
 import CommentContainer from "./CommentContainer";
 

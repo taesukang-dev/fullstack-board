@@ -19,6 +19,10 @@ spring:
       hibernate.show_sql: true
       hibernate.default_batch_fetch_size: 100
   sql.init.mode: always
+  redis:
+    host: localhost
+    port: 6379
 jwt:
   secret: dGVzdGluZy10aGlzaXNhanVzdHNpbXBsZS1zeW50YXgtdXNpbmdkYXNoY2FzZS1tZWFuaW5nbGVzcy1ldmVyeXdvcmQtaGFoYS13aG8tY2FyZXMtcmlnaHQK
-  token-validity-in-seconds: 86400000000
+  token-validity-in-seconds: 50000
+  refresh-token-validity-in-seconds: 2592000000

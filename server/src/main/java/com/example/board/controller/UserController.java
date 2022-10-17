@@ -3,6 +3,7 @@ package com.example.board.controller;
 import com.example.board.dto.request.UserJoinRequest;
 import com.example.board.dto.request.UserLoginRequest;
 import com.example.board.dto.response.Response;
+import com.example.board.dto.response.TokenResponse;
 import com.example.board.dto.response.UserJoinResponse;
 import com.example.board.dto.security.UserPrincipal;
 import com.example.board.service.UserService;
@@ -29,7 +30,12 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public Response<String> login(@RequestBody @Valid UserLoginRequest request) {
+    public Response<TokenResponse> login(@RequestBody @Valid UserLoginRequest request) {
         return Response.success(userService.login(request.getUsername(), request.getPassword()));
+    }
+
+    @GetMapping("/reissue")
+    public Response<String> reissue(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        return Response.success(userService.regenerateToken(userPrincipal.getUsername()));
     }
 }
