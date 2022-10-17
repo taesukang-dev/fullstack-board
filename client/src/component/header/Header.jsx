@@ -2,7 +2,7 @@ import * as s from './Header.style'
 import Button from "../../element/Button";
 import { useNavigate } from 'react-router-dom'
 import {useSelector} from "react-redux";
-import {useEffect} from "react";
+import react, {useEffect} from "react";
 
 const Header = () => {
     const navigate = useNavigate()
@@ -26,4 +26,4 @@ const Header = () => {
 
 
 
-export default Header
+export default react.memo(Header)
