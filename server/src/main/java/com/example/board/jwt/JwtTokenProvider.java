@@ -1,5 +1,7 @@
 package com.example.board.jwt;
 
+import com.example.board.dto.response.TokenResponse;
+import com.example.board.repository.TokenCacheRepository;
 import com.example.board.service.CustomUserDetailsService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -14,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
+import java.time.Duration;
 import java.util.Date;
 import java.util.List;
 
@@ -23,16 +26,23 @@ public class JwtTokenProvider implements InitializingBean {
 
     private final String secret;
     private final long tokenValidityMilliseconds;
+    private final long refreshTokenValidityMilliseconds;
     private final UserDetailsService userDetailsService;
+    private final TokenCacheRepository tokenCacheRepository;
+
     private Key key;
 
     public JwtTokenProvider(
             @Value("${jwt.secret}") String secret,
             @Value("${jwt.token-validity-in-seconds}") long tokenValidityMilliseconds,
+            @Value("${jwt.refresh-token-validity-in-seconds}") long refreshTokenValidityMilliseconds,
+            TokenCacheRepository tokenCacheRepository,
             CustomUserDetailsService customUserDetailsService) {
         this.secret = secret;
         this.tokenValidityMilliseconds = tokenValidityMilliseconds;
+        this.refreshTokenValidityMilliseconds = refreshTokenValidityMilliseconds;
         this.userDetailsService = customUserDetailsService;
+        this.tokenCacheRepository = tokenCacheRepository;
     }
 
     @Override
@@ -41,14 +51,29 @@ public class JwtTokenProvider implements InitializingBean {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String createToken(String userPk, List<String> roles) {
+    public String createToken(String userPk, List<String> roles, String rtk) {
+        Claims claims = Jwts.claims().setSubject(userPk);
+        claims.put("roles", roles);
+        return tokenBuilder(claims, new Date(), tokenValidityMilliseconds);
+    }
+
+    public TokenResponse createToken(String userPk, List<String> roles) {
         Claims claims = Jwts.claims().setSubject(userPk);
         claims.put("roles", roles);
         Date now = new Date();
+        String rtk = tokenBuilder(claims, now, refreshTokenValidityMilliseconds);
+        tokenCacheRepository.setToken(userPk, rtk, Duration.ofMillis(refreshTokenValidityMilliseconds));
+        return TokenResponse.builder()
+                .atk(tokenBuilder(claims, now, tokenValidityMilliseconds))
+                .rtk(rtk)
+                .build();
+    }
+
+    public String tokenBuilder(Claims claims, Date now, Long validityMilliseconds) {
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + tokenValidityMilliseconds))
+                .setExpiration(new Date(now.getTime() + validityMilliseconds))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
