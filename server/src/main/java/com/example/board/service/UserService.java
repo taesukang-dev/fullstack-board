@@ -1,9 +1,7 @@
 package com.example.board.service;
 
-import com.example.board.domain.Comment;
 import com.example.board.domain.User;
 import com.example.board.dto.UserDto;
-import com.example.board.dto.response.UserJoinResponse;
 import com.example.board.exception.BoardApplicationException;
 import com.example.board.exception.ErrorCode;
 import com.example.board.jwt.JwtTokenProvider;
@@ -15,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.NoSuchElementException;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -33,6 +30,11 @@ public class UserService {
                 .ifPresent(it -> { throw new BoardApplicationException(ErrorCode.DUPLICATED_USER); });
         return UserDto.fromUser(userRepository.save(User.of(username, passwordEncoder.encode(password))));
     }
+
+    public UserDto userInfo(String username) {
+        return UserDto.fromUser(userRepository.findByUsername(username).orElseThrow(() -> new BoardApplicationException(ErrorCode.USER_NOT_FOUND)));
+    }
+
 
     public String login(String username, String password) {
         User user = userRepository.findByUsername(username).orElseThrow(() -> new BoardApplicationException(ErrorCode.USER_NOT_FOUND));

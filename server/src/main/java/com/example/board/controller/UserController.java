@@ -4,12 +4,11 @@ import com.example.board.dto.request.UserJoinRequest;
 import com.example.board.dto.request.UserLoginRequest;
 import com.example.board.dto.response.Response;
 import com.example.board.dto.response.UserJoinResponse;
+import com.example.board.dto.security.UserPrincipal;
 import com.example.board.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -18,6 +17,11 @@ import javax.validation.Valid;
 @RestController
 public class UserController {
     private final UserService userService;
+
+    @GetMapping
+    public Response<UserJoinResponse> userInfo(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        return Response.success(UserJoinResponse.fromUserDto(userService.userInfo(userPrincipal.getUsername())));
+    }
 
     @PostMapping("/join")
     public Response<UserJoinResponse> join(@RequestBody @Valid UserJoinRequest request) {
