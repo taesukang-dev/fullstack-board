@@ -17,13 +17,14 @@
 	- styled-components 5.3.6
 	- Framer-motion 7.5.3
 - Backend
-	- Java 11+
-	- gradle lts
-	- Spring-boot 2.7.4
-	- Jpa lts
-	- Spring Security lts
-	- MySQL 8+
-	- Jwt
+    - Java 11+
+    - gradle lts
+    - Spring-boot 2.7.4
+    - Jpa lts
+    - Spring Security lts
+    - MySQL 8+
+    - Jwt
+  		- refresh token : 10.17
 
 <br />
 
