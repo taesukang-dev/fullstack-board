@@ -1,20 +1,19 @@
 import './App.css';
 import {Route, Routes} from 'react-router-dom'
 import Main from "./pages/main/Main";
-import Header from "./component/header/Header";
 import SignUp from "./pages/signup/SignUp";
 import Login from "./pages/login/Login";
 import {useSelector} from "react-redux";
-import SignedHeader from "./component/header/SignedHeader";
 import Detail from "./pages/detail/Detail";
 import Write from "./pages/write/Write";
+import Headers from "./component/header/Headers";
 
 function App() {
     const name = useSelector((state) => state.user)
 
     return (
         <>
-            {name.current ? <SignedHeader /> : <Header />}
+            <Headers />
             <Routes>
                 <Route path={"/"} element={<Main />}/>
                 <Route path={"/signup"} element={<SignUp />} />

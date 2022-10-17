@@ -28,7 +28,10 @@ const Comment = ({comment, tab = 0}) => {
             <s.TypeBox onClick={() => setReply(!reply)} cursor={"pointer"} tab={tab}>
                 <div>{comment.username}</div>
                 <div>{comment.content}</div>
-                { user.current === comment.username ? <Button _onClick={() => deleteCommentMutation.mutate()}>삭제</Button> : ''}
+                { user.current === comment.username ? <Button _onClick={(e) => {
+                    e.stopPropagation()
+                    deleteCommentMutation.mutate()
+                }}>삭제</Button> : ''}
             </s.TypeBox>
             {
                 reply &&

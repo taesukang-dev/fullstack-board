@@ -1,7 +1,6 @@
 package com.example.board.repository;
 
 import com.example.board.domain.Comment;
-import com.example.board.domain.Post;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -25,7 +24,7 @@ public class CommentRepository {
 
     public Optional<List<Comment>> findByPostId(Long postId) {
         try {
-            return Optional.of(em.createQuery("select distinct c from Comment c " +
+            return Optional.of(em.createQuery("select c from Comment c " +
                             " join fetch c.user" +
                             " join fetch c.post" +
                             " where c.post.id =:postId" +

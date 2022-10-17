@@ -37,7 +37,6 @@ const Comments = ({postId}) => {
             {
                 result.data?.result.map((e, i) => <Comment comment={e} key={i}/>)
             }
-
         </>
     )
 }

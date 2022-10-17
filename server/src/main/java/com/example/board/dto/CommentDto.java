@@ -30,6 +30,8 @@ public class CommentDto {
         List<CommentDto> convertedChild = comment.getChild().stream()
                 .map(e -> new CommentDto(e.getId(), e.getContent(), e.getUser(), e.getPost(), convertChild(e.getChild()), e.getRegisterAt()))
                 .collect(Collectors.toList());
+        log.info("the user {}", comment.getUser());
+
         return new CommentDto(
                 comment.getId(),
                 comment.getContent(),
@@ -53,4 +55,5 @@ public class CommentDto {
                         e.getRegisterAt()
                 )).collect(Collectors.toList());
     }
+
 }
