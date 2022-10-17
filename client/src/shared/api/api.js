@@ -39,3 +39,5 @@ export const login = (username, password) => axiosInstance.post('/users/login',{
 }).then(res => {
     document.cookie = 'x_auth' + '=' + 'Bearer ' + res.result
 })
+
+export const userInfo = () => axiosInstance.get(`/users`).then(res => res)

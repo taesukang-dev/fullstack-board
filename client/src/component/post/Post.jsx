@@ -5,7 +5,6 @@ import {useNavigate} from "react-router-dom";
 const Post = ({post}) => {
     let [parsedDate, setParsedDate] = useState('')
     const navigate = useNavigate()
-    console.log('posts fetched')
 
     useEffect(() => {
         const newDates = new Date(post.registerAt).toLocaleDateString().split('2022. ')[1]
