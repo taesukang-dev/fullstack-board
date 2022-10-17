@@ -21,6 +21,7 @@ const SignedHeader = () => {
                 <Button padding={"10px"} margin={"0px 10px"}
                         _onClick={() => {
                             deleteCookie('x_auth')
+                            deleteCookie('x_refresh')
                             dispatch(setUserUp(''))
                         }}
                 >로그아웃</Button>

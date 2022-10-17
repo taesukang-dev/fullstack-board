@@ -1,4 +1,5 @@
 import axiosInstance from "./instance";
+import {deleteCookie} from "../Cookie";
 
 export const getPosts = (page = 0) => axiosInstance.get(`/posts/list?page=${page}`).then(res => res)
 
@@ -37,7 +38,10 @@ export const login = (username, password) => axiosInstance.post('/users/login',{
     "username": username,
     "password": password
 }).then(res => {
-    document.cookie = 'x_auth' + '=' + 'Bearer ' + res.result
+    document.cookie = 'x_auth' + '=' + 'Bearer ' + res.result.atk
+    document.cookie = 'x_refresh' + '=' + 'Bearer ' + res.result.rtk
 })
 
 export const userInfo = () => axiosInstance.get(`/users`).then(res => res)
+
+export const reissue = () => axiosInstance.get(`/users/reissue`).then(res => document.cookie = 'x_auth' + '=' + 'Bearer ' + res.result)
