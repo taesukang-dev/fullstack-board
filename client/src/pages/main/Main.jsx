@@ -3,6 +3,7 @@ import {useQuery} from "@tanstack/react-query";
 import {getPosts} from "../../shared/api/api";
 import Post from "../../component/post/Post";
 import {GridBox} from "./Main.style";
+import ModalButton from "../../component/ChatModal/ModalButton";
 
 const Main = () => {
     const [posts, setPosts] = useState();
@@ -23,6 +24,7 @@ const Main = () => {
                        posts && posts.map((e, i) => <Post key={i} post={e}/>)
                     }
                 </GridBox>
+                <ModalButton />
             </>
         );
     }
