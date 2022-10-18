@@ -42,6 +42,9 @@ export const login = (username, password) => axiosInstance.post('/users/login',{
     document.cookie = 'x_refresh' + '=' + 'Bearer ' + res.result.rtk
 })
 
-export const userInfo = () => axiosInstance.get(`/users`).then(res => res)
+export const userInfo = () => axiosInstance.get(`/users`)
+    .then(res => res)
 
-export const reissue = () => axiosInstance.get(`/users/reissue`).then(res => document.cookie = 'x_auth' + '=' + 'Bearer ' + res.result)
+export const reissue = () => axiosInstance.get(`/users/reissue`)
+    .then(res => document.cookie = 'x_auth' + '=' + 'Bearer ' + res.result)
+    .catch(err => deleteCookie('x_refresh'));

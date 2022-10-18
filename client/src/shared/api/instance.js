@@ -31,8 +31,12 @@ axiosInstance.interceptors.response.use(
         return res;
     },
     (error) => {
-        deleteCookie('x_auth')
-        reissue()
+        if (error.response.status === 401) {
+            deleteCookie('x_auth');
+            if (document.cookie.match('(^|;) ?' + 'x_refresh' + '=([^;]*)(;|$)')) {
+                reissue()
+            }
+        }
         return Promise.reject(error);
     }
 );
