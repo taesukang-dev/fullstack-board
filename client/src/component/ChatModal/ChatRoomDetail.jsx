@@ -8,6 +8,7 @@ import react, {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import {getCookie} from "../../shared/Cookie";
 import Text from "../../element/Text";
+import ChatText from "./ChatText";
 
 const ChatRoomDetail = ({presentRoom}) => {
     const header = {Authorization: getCookie('x_auth')};
@@ -23,8 +24,6 @@ const ChatRoomDetail = ({presentRoom}) => {
     let ws = Stomp.over(sock)
 
     const sendMessage = () => {
-        console.log(presentRoom)
-        console.log(pubChat)
         ws.send("/pub/chat/message", header, JSON.stringify({type: 'TALK', roomId: presentRoom, sender: user.current, message: pubChat}))
     }
 
@@ -64,10 +63,7 @@ const ChatRoomDetail = ({presentRoom}) => {
             </s.GridBox>
             {
                 chatList.map((e, i) => {
-                    return (<s.ChatRoomListBox key={i}>
-                        <div>{e.sender} :</div>
-                        <div>{e.message}</div>
-                    </s.ChatRoomListBox>)
+                    return (<ChatText chat={e} key={i} />)
                 })
             }
         </s.ChatRoomBox>

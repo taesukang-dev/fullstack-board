@@ -8,7 +8,7 @@ const ChatText = ({chat}) => {
                 {chat.sender}:
             </div>
             <div>
-                {chat.data}
+                {chat.message}
             </div>
         </ChatTextBox>
     )
@@ -16,6 +16,8 @@ const ChatText = ({chat}) => {
 
 const ChatTextBox = styled.div`
     color: white;
+    font-weight: 700;
+    word-break:break-all;
     padding: 10px;
     display: grid;
     grid-template-columns: 0.5fr 2fr;
