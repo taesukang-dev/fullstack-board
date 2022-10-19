@@ -11,6 +11,7 @@
     "axios": "^1.1.2",
     "eslint": "8.22.0",
     "framer-motion": "^7.5.3",
+    "net": "^1.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.37.0",
@@ -18,9 +19,9 @@
     "react-router-dom": "^6.4.2",
     "react-scripts": "5.0.1",
     "redux-logger": "^3.0.6",
-    "styled-components": "^5.3.6",
     "sockjs-client": "^1.6.1",
-    "stompjs": "^2.3.3",
+    "stomp-websocket": "^2.3.4-next",
+    "styled-components": "^5.3.6",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
