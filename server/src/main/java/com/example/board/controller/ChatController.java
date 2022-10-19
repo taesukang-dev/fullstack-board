@@ -2,26 +2,27 @@ package com.example.board.controller;
 
 import com.example.board.dto.chat.ChatMessage;
 import com.example.board.dto.chat.MessageType;
+import com.example.board.repository.RedisChatRoomRepository;
+import com.example.board.service.RedisChatPublisher;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
 
-@Slf4j
 @RequiredArgsConstructor
 @Controller
 public class ChatController {
 
-    private final SimpMessageSendingOperations messagingTemplate;
+    private final RedisChatPublisher redisPublisher;
+    private final RedisChatRoomRepository redisChatRoomRepository;
 
     @MessageMapping("/chat/message")
     public void message(ChatMessage message) {
         if (MessageType.ENTER.equals(message.getType())) {
-            message.setMessage(message.getSender() + "님이 입장하였습니다.");
+            String username = message.getSender();
+            message.setSender("New");
+            redisChatRoomRepository.enterChatRoom(message.getRoomId());
+            message.setMessage(username + "님이 입장하셨습니다.");
         }
-        log.info("the roomId {}", message.getRoomId());
-        log.info("the room message {}", message.getMessage());
-        messagingTemplate.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
+        redisPublisher.publish(redisChatRoomRepository.getTopic(message.getRoomId()), message);
     }
 }
