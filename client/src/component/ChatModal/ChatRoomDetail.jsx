@@ -16,9 +16,7 @@ const ChatRoomDetail = ({presentRoom}) => {
     const [chatList, setChatList] = useState([])
     const user = useSelector((state) => state.user)
 
-    const roomDetail = useQuery(['getRoom'], () => getRoom(presentRoom), {
-        onSuccess: (data) => console.log(data)
-    })
+    const roomDetail = useQuery(['getRoom'], () => getRoom(presentRoom))
 
     let sock = new SockJS("http://localhost:8080/ws-stomp")
     let ws = Stomp.over(sock)
@@ -33,7 +31,6 @@ const ChatRoomDetail = ({presentRoom}) => {
             ws.subscribe(`/sub/chat/room/${presentRoom}`, (message) => {
                 const received = JSON.parse(message.body)
                 setChatList((_chatList) => [received, ..._chatList])
-                console.log(received)
             })
             ws.send("/pub/chat/message", header, JSON.stringify({type: 'ENTER', roomId: presentRoom, sender: user.current}))
         }, (error) => {

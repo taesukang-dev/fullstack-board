@@ -9,13 +9,13 @@
 
 ## Tech Stack
 - Frontend
-	- Node 16+
-	- React 18.2.0
-	- Redux-toolkit 1.8.6
-	- React-Query 4.10.3
-	- axios 1.1.2
-	- styled-components 5.3.6
-	- Framer-motion 7.5.3
+    - Node 16+
+    - React 18.2.0
+    - Redux-toolkit 1.8.6
+    - React-Query 4.10.3
+    - axios 1.1.2
+    - styled-components 5.3.6
+    - Framer-motion 7.5.3
 - Backend
     - Java 11+
     - gradle lts
@@ -24,7 +24,10 @@
     - Spring Security lts
     - MySQL 8+
     - Jwt
-  		- refresh token : 10.17
+          - refresh token : 10.17
+    - WebSocket
+    - Stomp
+    - redis
 
 <br />
 

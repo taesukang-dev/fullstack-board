@@ -20,7 +20,7 @@ const ChatTextBox = styled.div`
     word-break:break-all;
     padding: 10px;
     display: grid;
-    grid-template-columns: 0.5fr 2fr;
+    grid-template-columns: 1fr 3fr;
     gap: 10px;
 `
 
