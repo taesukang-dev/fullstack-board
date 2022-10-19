@@ -48,3 +48,12 @@ export const userInfo = () => axiosInstance.get(`/users`)
 export const reissue = () => axiosInstance.get(`/users/reissue`)
     .then(res => document.cookie = 'x_auth' + '=' + 'Bearer ' + res.result)
     .catch(err => deleteCookie('x_refresh'));
+
+export const chatRoomList = () => axiosInstance.get(`/chat/rooms`)
+    .then(res => res)
+
+export const createChatRoom = (name) => axiosInstance.post(`/chat/room?name=${name}`)
+    .then(res => res)
+
+export const getRoom = (roomId) => axiosInstance.get(`/chat/room/${roomId}`)
+    .then(res => res)

@@ -8,6 +8,7 @@ import com.example.board.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -28,7 +29,7 @@ public class SecurityConfig {
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .exceptionHandling()
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
@@ -37,9 +38,9 @@ public class SecurityConfig {
                 .formLogin().disable()
                 .httpBasic().disable()
                 .csrf().disable()
-                .cors().configurationSource(corsConfigurationSource())
-                .and()
                 .headers().frameOptions().sameOrigin()
+                .and()
+                .cors().configurationSource(corsConfigurationSource())
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -48,10 +49,21 @@ public class SecurityConfig {
                 .authorizeRequests(
                         auth -> auth
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                                .mvcMatchers("/api/users/join").permitAll()
-                                .mvcMatchers("/api/users/login").permitAll()
-                                .mvcMatchers("/api/posts/list").permitAll()
-                                .mvcMatchers("/api/posts/post/**").permitAll()
+                                .mvcMatchers(
+                                        HttpMethod.GET,
+                                        "/api/posts/post/**",
+                                        "/api/posts/list",
+                                        "/ws-stomp/**",
+                                        "/ws-stomp",
+                                        "/ws-stomp/chat").permitAll()
+                                .mvcMatchers(
+                                        HttpMethod.POST,
+                                        "/api/users/join",
+                                        "/api/users/login",
+                                        "/ws-stomp/**",
+                                        "/ws-stomp",
+                                        "/ws-stomp/chat"
+                                ).permitAll()
                                 .anyRequest().authenticated()
                 )
                 .apply(new JwtSecurityConfig(jwtTokenProvider))

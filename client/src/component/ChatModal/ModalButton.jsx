@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import react, {useState} from "react";
-import ChatRoom from "./ChatRoom";
+import ChatRoomList from "./ChatRoomList";
 
 const ModalButton = () => {
     const [showChatRoom, setShowChatRoom] = useState(false)
@@ -8,7 +8,7 @@ const ModalButton = () => {
     return (
         <ModalContainer>
             <ModalBox>
-                {showChatRoom && <ChatRoom />}
+                {showChatRoom && <ChatRoomList />}
                 <Circle onClick={() => setShowChatRoom(!showChatRoom)}>⏏</Circle>
             </ModalBox>
         </ModalContainer>
