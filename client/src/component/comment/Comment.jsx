@@ -2,10 +2,10 @@ import * as s from './Comment.style'
 import Button from "../../element/Button";
 import {useSelector} from "react-redux";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
-import {deleteComment, writeCommentByParent} from "../../shared/api/api";
-import {useState} from "react";
+import {createAlarm, deleteComment, writeCommentByParent} from "../../shared/api/api";
+import {useEffect, useState} from "react";
 
-const Comment = ({comment, tab = 0}) => {
+const Comment = ({comment, receivedUsername, postId, tab = 0}) => {
     let [reply, setReply] = useState(false)
     let [commentByParent, setCommentByParent] = useState()
     const user = useSelector((state) => state.user)
@@ -19,9 +19,14 @@ const Comment = ({comment, tab = 0}) => {
 
     let commentWriteByParentMutation = useMutation(() => writeCommentByParent(comment.postId, comment.id, commentByParent), {
         onSuccess: (data) => {
+            createAlarm(receivedUsername, postId)
             queryClient.invalidateQueries(['comments'])
         }
     })
+
+    useEffect(() => {
+        console.log(receivedUsername, postId)
+    }, [])
 
     return (
         <>

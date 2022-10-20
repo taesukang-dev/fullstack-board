@@ -1,6 +1,7 @@
 package com.example.board.dto.response;
 
 import com.example.board.dto.PostDto;
+import com.example.board.dto.UserDto;
 import lombok.Data;
 import lombok.Builder;
 import lombok.AllArgsConstructor;
@@ -16,7 +17,7 @@ public class PostReadResponse {
     private Long id;
     private String title;
     private String content;
-    private String username;
+    private UserJoinResponse user;
     private Timestamp registerAt;
 
     public static PostReadResponse fromPostDto(PostDto postDto) {
@@ -24,7 +25,7 @@ public class PostReadResponse {
                 postDto.getId(),
                 postDto.getTitle(),
                 postDto.getContent(),
-                postDto.getUser().getUsername(),
+                UserJoinResponse.fromUserDto(UserDto.fromUser(postDto.getUser())),
                 postDto.getRegisterAt()
         );
     }

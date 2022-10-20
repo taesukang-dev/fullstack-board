@@ -12,47 +12,43 @@ import java.time.Instant;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "\"user\"")
-@SQLDelete(sql = "UPDATE user SET DELETED_AT = NOW() where id = ?")
 @Where(clause = "deleted_at is null")
+@SQLDelete(sql = "UPDATE Alarm SET DELETED_AT = NOW() where id = ?")
+@Table(name = "\"Alarm\"", indexes = {
+        @Index(name = "user_id_idx", columnList = "user_id")
+})
 @Entity
-public class User {
+public class Alarm {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String username;
-    private String password;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User receivedUser;
+
     @Enumerated(EnumType.STRING)
-    private UserRole role = UserRole.USER;
+    private AlarmType alarmType;
+
+    @Embedded
+    private AlarmArgs alarmArgs;
 
     @Column(name = "registered_at")
     private Timestamp registerAt;
+
     @Column(name = "updated_at")
     private Timestamp updatedAt;
+
     @Column(name = "deleted_at")
     private Timestamp deletedAt;
 
-    public User(String username, String password) {
-        this.username = username;
-        this.password = password;
+    public Alarm(User receivedUser, AlarmType alarmType, AlarmArgs alarmArgs) {
+        this.receivedUser = receivedUser;
+        this.alarmType = alarmType;
+        this.alarmArgs = alarmArgs;
     }
 
-    protected User(Long id, String username, String password) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.role = role;
-    }
-
-    public static User of(String username, String password) {
-        return new User(username, password);
-    }
-
-    public static User makeFixture(Long id, String username, String password) {
-        return new User(
-                id,
-                username,
-                password
-        );
+    public static Alarm of(User user, AlarmType alarmType, AlarmArgs alarmArgs) {
+        return new Alarm(user, alarmType, alarmArgs);
     }
 
     @PrePersist void registeredAt() { this.registerAt = Timestamp.from(Instant.now()); }

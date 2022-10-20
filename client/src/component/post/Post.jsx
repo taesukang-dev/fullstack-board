@@ -17,7 +17,7 @@ const Post = ({post}) => {
             onClick={() => navigate(`/detail/${post.id}`)}
         >
             <div>{post.id}</div>
-            <div>{post.username}</div>
+            <div>{post.user.username}</div>
             <div>{post.title}</div>
             <div>{parsedDate}</div>
         </s.GridBox>

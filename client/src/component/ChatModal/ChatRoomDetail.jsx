@@ -7,7 +7,6 @@ import Stomp from 'stomp-websocket'
 import react, {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import {getCookie} from "../../shared/Cookie";
-import Text from "../../element/Text";
 import ChatText from "./ChatText";
 
 const ChatRoomDetail = ({presentRoom}) => {

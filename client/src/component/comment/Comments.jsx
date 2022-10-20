@@ -2,7 +2,7 @@ import * as s from './Comment.style'
 import Text from "../../element/Text";
 import CommentContainer from "./CommentContainer";
 
-const Comments = ({postId}) => {
+const Comments = ({postId, receivedUsername}) => {
     return (
         <>
             <s.CommentTitleBox>
@@ -12,7 +12,7 @@ const Comments = ({postId}) => {
                 <div>작성자</div>
                 <div>내용</div>
             </s.GridBox>
-            <CommentContainer postId={postId} />
+            <CommentContainer receivedUsername={receivedUsername} postId={postId} />
         </>
     )
 }
