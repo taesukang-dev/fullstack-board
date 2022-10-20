@@ -43,4 +43,9 @@ public class AlarmService {
                 .stream().map(AlarmDto::fromAlarm)
                 .collect(Collectors.toList());
     }
+
+    @Transactional
+    public void deleteAlarm(Long alarmId) {
+        alarmRepository.deleteById(alarmId);
+    }
 }

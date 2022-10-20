@@ -1,14 +1,11 @@
 package com.example.board.dto.response;
 
 import com.example.board.domain.AlarmArgs;
-import com.example.board.domain.AlarmType;
 import com.example.board.dto.AlarmDto;
-import lombok.Data;
-import lombok.Builder;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.sql.Timestamp;
 
 @Data
 @AllArgsConstructor
@@ -16,12 +13,12 @@ import java.sql.Timestamp;
 @Builder
 public class AlarmResponse {
     private Long id;
-    private AlarmType alarmType;
+    private String alarmType;
     private AlarmArgs args;
-    private Timestamp registeredAt;
+    private String registeredAt;
 
     public static AlarmResponse fromAlarmDto(AlarmDto alarmDto) {
-        return new AlarmResponse(alarmDto.getId(), alarmDto.getAlarmType(), alarmDto.getArgs(), alarmDto.getRegisteredAt());
+        return new AlarmResponse(alarmDto.getId(), alarmDto.getAlarmType().getName(), alarmDto.getArgs(), alarmDto.getRegisteredAt().toLocalDateTime().toString());
     }
 
 
