@@ -21,6 +21,7 @@ const Detail = () => {
 
     let result = useQuery(['post'], () => getPost(id.id), {
         onSuccess: (data) => {
+            console.log(data)
             setPost(data.result)
             const newDates = new Date(data.result.registerAt).toLocaleDateString().split('2022. ')[1]
             const newTimes = new Date(data.result.registerAt).toTimeString().split(' ')[0]
@@ -58,7 +59,7 @@ const Detail = () => {
             </s.GridBox>
             <s.GridBox>
                 <div>{post?.id}</div>
-                <div>{post?.username}</div>
+                <div>{post?.user.username}</div>
                 {updateStatue ? <s.InputBox onChange={(e) => setUpdateTitle(e.target.value)} />
                     : <div>{post?.title}</div> }
                 <div>{parsedDate}</div>
@@ -68,16 +69,16 @@ const Detail = () => {
                 {updateStatue ? <Input multiLine _onChange={(e) => setUpdateContent(e.target.value)}/>
                     : <div>{post?.content}</div>}
             </s.ContentGridBox>
-            { post && <Comments postId={post?.id}/>}
+            { post && <Comments postId={post?.id} receivedUsername={post?.user.username}/>}
             <s.ButtonBox>
                 {updateStatue ? <Button _onClick={() => updateMutation.mutate()}
                         padding={"10px"}>수정완료</Button>
                     : <Button _onClick={() => navigate('/')} padding={"10px"}>목록으로</Button>}
-                { user.current === post?.username &&
+                { user.current === post?.user.username &&
                     <Button _onClick={() => setUpdateStatus(true)}
                         padding={"10px"} margin={"0px 0px 0px 10px"}>수정</Button>
                 }
-                { user.current === post?.username &&
+                { user.current === post?.user.username &&
                     <Button _onClick={() => deleteMutation.mutate()}
                             padding={"10px"} margin={"0px 0px 0px 10px"}>삭제</Button>
                 }

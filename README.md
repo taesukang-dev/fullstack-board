@@ -28,6 +28,7 @@
     - WebSocket
     - Stomp
     - redis
+		- live chat service : 10.19
 
 <br />
 

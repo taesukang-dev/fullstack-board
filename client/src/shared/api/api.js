@@ -57,3 +57,10 @@ export const createChatRoom = (name) => axiosInstance.post(`/chat/room?name=${na
 
 export const getRoom = (roomId) => axiosInstance.get(`/chat/room/${roomId}`)
     .then(res => res)
+
+export const getAlarms = () => axiosInstance.get(`/alarm`)
+
+export const createAlarm = (receivedUsername, postId) => axiosInstance.post(`/alarm`, {
+    "receivedUsername": receivedUsername,
+    "postId": postId
+})
