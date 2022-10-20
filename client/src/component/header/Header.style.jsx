@@ -17,4 +17,5 @@ export const SideBox = styled.div`
 export const LoggedBox = styled.div`
     display: flex;
     align-items: center;
+    gap: 10px;
 `
