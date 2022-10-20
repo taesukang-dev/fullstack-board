@@ -25,5 +25,8 @@ public class AlarmRepository {
                 .getResultList());
     }
 
-
+    public void deleteById(Long alarmId) {
+        Alarm alarm = em.find(Alarm.class, alarmId);
+        em.remove(alarm);
+    }
 }

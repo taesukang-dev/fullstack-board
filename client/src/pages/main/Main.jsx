@@ -4,8 +4,10 @@ import {getPosts} from "../../shared/api/api";
 import Post from "../../component/post/Post";
 import {GridBox} from "./Main.style";
 import ModalButton from "../../component/ChatModal/ModalButton";
+import {useSelector} from "react-redux";
 
 const Main = () => {
+    const user = useSelector((state) => state.user)
     const [posts, setPosts] = useState();
     const result = useQuery(['posts'], () => getPosts(), {
         onSuccess: (data) => {
@@ -13,7 +15,6 @@ const Main = () => {
         },
         enabled: !posts
     })
-
     if (result.isLoading) {
         return <div>Loading...</div>;
     } else {
@@ -24,7 +25,7 @@ const Main = () => {
                        posts && posts.map((e, i) => <Post key={i} post={e}/>)
                     }
                 </GridBox>
-                <ModalButton />
+                {user.current && <ModalButton />}
             </>
         );
     }

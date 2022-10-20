@@ -21,7 +21,6 @@ const Detail = () => {
 
     let result = useQuery(['post'], () => getPost(id.id), {
         onSuccess: (data) => {
-            console.log(data)
             setPost(data.result)
             const newDates = new Date(data.result.registerAt).toLocaleDateString().split('2022. ')[1]
             const newTimes = new Date(data.result.registerAt).toTimeString().split(' ')[0]

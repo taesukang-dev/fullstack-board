@@ -33,4 +33,10 @@ public class AlarmController {
                 .stream().map(AlarmResponse::fromAlarmDto).collect(Collectors.toList()));
     }
 
+    @DeleteMapping("/{alarmId}")
+    public Response<Void> deleteAlarm(@PathVariable Long alarmId) {
+        alarmService.deleteAlarm(alarmId);
+        return Response.success();
+    }
+
 }
