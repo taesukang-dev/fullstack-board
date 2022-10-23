@@ -8,16 +8,16 @@ import {useSelector} from "react-redux";
 
 const Main = () => {
     const user = useSelector((state) => state.user)
-    const [posts, setPosts] = useState();
+    const [posts, setPosts] = useState(false);
     const result = useQuery(['posts'], () => getPosts(), {
         onSuccess: (data) => {
             setPosts(data.result)
         },
         enabled: !posts
     })
-    if (result.isLoading) {
-        return <div>Loading...</div>;
-    } else {
+    // if (result.isLoading) {
+    //     return <div>Loading...</div>;
+    // } else {
         return (
             <>
                 <GridBox>
@@ -28,7 +28,7 @@ const Main = () => {
                 {user.current && <ModalButton />}
             </>
         );
-    }
+    // }
 }
 
 export default React.memo(Main)

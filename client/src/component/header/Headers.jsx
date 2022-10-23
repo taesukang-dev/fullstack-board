@@ -4,6 +4,7 @@ import Header from "./Header";
 import {useQuery} from "@tanstack/react-query";
 import {userInfo} from "../../shared/api/api";
 import {setUserUp} from "../../store/userSlice";
+import {useEffect} from "react";
 
 const Headers = () => {
     const dispatch = useDispatch()

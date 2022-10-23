@@ -1,3 +1,4 @@
+import React from "react";
 import * as s from './Header.style'
 import Button from "../../element/Button";
 import {useNavigate} from 'react-router-dom'
@@ -38,9 +39,8 @@ const SignedHeader = () => {
                     >글쓰기</Button>
                 </s.LoggedBox>
             </s.GridBox>
-
         </>
     )
 }
 
-export default SignedHeader
+export default React.memo(SignedHeader)

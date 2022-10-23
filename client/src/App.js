@@ -6,6 +6,10 @@ import Login from "./pages/login/Login";
 import Detail from "./pages/detail/Detail";
 import Write from "./pages/write/Write";
 import Headers from "./component/header/Headers";
+import {useQuery} from "@tanstack/react-query";
+import {userInfo} from "./shared/api/api";
+import {setUserUp} from "./store/userSlice";
+import {useDispatch, useSelector} from "react-redux";
 
 function App() {
     return (
