@@ -98,14 +98,17 @@
 		- api는 axios instance를 생성하여 presetational component와 분리한다.
 	- 댓글 CRD
 		- CascadeType.ALL 을 활용하여 대댓글의 삭제나 생성도 자동으로 하게 한다. 
-		- 대댓글 CD
+		- 대댓글 CRD
 			- 대댓글은 Maximum recursion 한도 내에서 무한으로 생성 가능
+				- 대댓글의 대댓글의 대댓글...
 			- indent size를 통해 댓글과 대댓글 구별 가능
 	- 회원 CR
 	- Authentication
 		- Jwt
 		- spring security 사용
 			- 최신버전으로 websecurityconfigureradapter 를 extends 하지 않는 방식으로 적용
+	- 알람 CD
+		- 실시간 알림
 	- 서버에서 생기는 Error는 직접 handling 할 수 있도록 custom 하여 사용
 		- GlobalControllerAdvice에서 handling
 	- DDD를 차용한 Domain 내에서의 logic 설계
