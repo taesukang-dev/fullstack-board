@@ -21,15 +21,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class UserPrincipal implements UserDetails {
-
+    private Long id;
     private String username;
     private String password;
     Collection<? extends GrantedAuthority> authorities;
 
-    public static UserPrincipal of(String username, String password, UserRole userRole) {
+    public static UserPrincipal of(Long id, String username, String password, UserRole userRole) {
         Set<UserRole> roles = Set.of(userRole);
 
         return new UserPrincipal(
+                id,
                 username,
                 password,
                 roles.stream().map(UserRole::getName).map(SimpleGrantedAuthority::new).collect(Collectors.toUnmodifiableSet())
@@ -37,7 +38,7 @@ public class UserPrincipal implements UserDetails {
     }
 
     public static UserPrincipal from(UserDto userDto) {
-        return UserPrincipal.of(userDto.getUsername(), userDto.getPassword(), userDto.getRole());
+        return UserPrincipal.of(userDto.getId(), userDto.getUsername(), userDto.getPassword(), userDto.getRole());
     }
 
     @Override public Collection<? extends GrantedAuthority> getAuthorities() { return this.authorities; }

@@ -27,6 +27,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             Authentication authentication = jwtTokenProvider.getAuthentication(jwt);
             SecurityContextHolder.getContext().setAuthentication(authentication);
             log.info("it has a auth {}", authentication.getName());
+            log.info("success at {}", request.getRequestURI());
         } else {
             log.info("fail uri: {}", request.getRequestURI());
         }

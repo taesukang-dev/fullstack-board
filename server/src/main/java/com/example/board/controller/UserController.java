@@ -21,7 +21,7 @@ public class UserController {
 
     @GetMapping
     public Response<UserJoinResponse> userInfo(@AuthenticationPrincipal UserPrincipal userPrincipal) {
-        return Response.success(UserJoinResponse.fromUserDto(userService.userInfo(userPrincipal.getUsername())));
+        return Response.success(UserJoinResponse.fromUserPrincipal(userPrincipal));
     }
 
     @PostMapping("/join")

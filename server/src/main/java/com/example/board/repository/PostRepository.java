@@ -29,7 +29,7 @@ public class PostRepository {
 
     public Optional<List<Post>> findAllWithPaging(int start) {
         try {
-            return Optional.of(em.createQuery("select distinct p from Post p" +
+            return Optional.of(em.createQuery("select p from Post p" +
                             " join fetch p.user " +
                             " order by p.id desc", Post.class)
                     .setFirstResult(start * 10)

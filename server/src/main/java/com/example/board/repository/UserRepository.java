@@ -25,17 +25,10 @@ public class UserRepository {
     }
 
     public Optional<User> findByUsername(String username) {
-        try {
-            return Optional.of(em.createQuery("select u from User u where u.username = :username", User.class)
-                    .setParameter("username", username).getSingleResult());
-        } catch (NonUniqueResultException e) {
-            return em.createQuery("select u from User u where u.username = :username", User.class)
-                    .setParameter("username", username)
-                    .getResultList()
-                    .stream().findAny();
-        } catch (RuntimeException e) {
-            return Optional.empty();
-        }
+        return em.createQuery("select u from User u where u.username = :username", User.class)
+                .setParameter("username", username)
+                .getResultList()
+                .stream().findAny();
     }
 
 }
