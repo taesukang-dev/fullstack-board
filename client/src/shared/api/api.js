@@ -60,9 +60,4 @@ export const getRoom = (roomId) => axiosInstance.get(`/chat/room/${roomId}`)
 
 export const getAlarms = () => axiosInstance.get(`/alarm`).then(res => res)
 
-export const createAlarm = (receivedUsername, postId) => axiosInstance.post(`/alarm`, {
-    "receivedUsername": receivedUsername,
-    "postId": postId
-})
-
 export const deleteAlarm = (alarmId) => axiosInstance.delete(`/alarm/${alarmId}`).then(res => res)

@@ -12,9 +12,10 @@ const Button = (props) => {
         color,
         type,
         height,
+        warn
     } = props
 
-    const styles = {margin, padding, bg, width, color, height}
+    const styles = {margin, padding, bg, width, color, height, warn}
 
     return (
         <>
@@ -45,7 +46,7 @@ const ButtonBox = styled(motion.button)`
     background: ${(props) => props.bg !== "false" ? props.bg : "white"};
     color: ${(props) => props.color ? props.color : "#304458"};
     font-size: 16px;
-    border: 1px solid #ABABAB;
+    border: ${(props) => props.warn === true ? "1px solid #c4302b" : "1px solid #ABABAB"};
     cursor: pointer;
 `
 

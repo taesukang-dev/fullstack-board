@@ -16,7 +16,6 @@ const CommentContainer = ({postId, receivedUsername}) => {
 
     let commentWriteMutation = useMutation(() => writeComment(postId, comment), {
         onSuccess: (data) => {
-            createAlarm(receivedUsername, postId)
             queryClient.invalidateQueries(['comments'])
         }
     })

@@ -3,6 +3,7 @@ package com.example.board.service;
 import com.example.board.domain.Comment;
 import com.example.board.domain.Post;
 import com.example.board.domain.User;
+import com.example.board.dto.AlarmDto;
 import com.example.board.dto.CommentDto;
 import com.example.board.exception.BoardApplicationException;
 import com.example.board.exception.ErrorCode;
@@ -25,6 +26,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final AlarmService alarmService;
 
 
     public List<CommentDto> commentList(Long postId) {
@@ -42,6 +44,10 @@ public class CommentService {
                 .orElseThrow(() -> new BoardApplicationException(ErrorCode.POST_NOT_FOUND));
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new BoardApplicationException(ErrorCode.USER_NOT_FOUND));
+        AlarmDto alarmDto = alarmService.create(username, post.getUser().getUsername(), postId);
+        if (alarmDto != null) {
+            alarmService.send(alarmDto.getId(), post.getUser().getId());
+        }
         return CommentDto.fromComment(commentRepository.save(Comment.of(content, post, user)));
     }
 

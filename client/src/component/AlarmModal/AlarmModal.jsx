@@ -6,13 +6,14 @@ import {AlarmListBox} from "./AlarmModal.style";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {showModal} from "../../store/alarmModalSlice";
+import {getCookie} from "../../shared/Cookie";
 
 const AlarmModal = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const alarmModal = useSelector((state) => state.alarmModal)
     const [alarmList, setAlarmList] = useState([{alarmType: '알림이 없습니다.'}])
-    useQuery(['alarms'], () =>getAlarms(),{
+    useQuery(['alarms'], () => getAlarms(),{
         onSuccess: (data) => data.result.length !== 0 ? setAlarmList(data.result) : ''
     })
 
