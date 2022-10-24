@@ -16,7 +16,7 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @Repository
-public class RedisChatRoomRepository {
+public class ChatRoomCacheRepository {
     private final RedisMessageListenerContainer redisMessageListener;
     private final RedisChatSubscriber redisSubscriber;
     private static final String CHAT_ROOMS = "CHAT_ROOM";
