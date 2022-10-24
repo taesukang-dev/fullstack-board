@@ -19,14 +19,9 @@ const Comment = ({comment, receivedUsername, postId, tab = 0}) => {
 
     let commentWriteByParentMutation = useMutation(() => writeCommentByParent(comment.postId, comment.id, commentByParent), {
         onSuccess: (data) => {
-            createAlarm(receivedUsername, postId)
             queryClient.invalidateQueries(['comments'])
         }
     })
-
-    useEffect(() => {
-        console.log(receivedUsername, postId)
-    }, [])
 
     return (
         <>

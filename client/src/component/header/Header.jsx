@@ -1,8 +1,8 @@
 import * as s from './Header.style'
 import Button from "../../element/Button";
 import { useNavigate } from 'react-router-dom'
-import {useSelector} from "react-redux";
 import react, {useEffect} from "react";
+import {getCookie} from "../../shared/Cookie";
 
 const Header = () => {
     const navigate = useNavigate()
