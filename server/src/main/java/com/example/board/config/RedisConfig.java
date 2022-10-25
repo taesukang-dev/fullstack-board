@@ -1,6 +1,5 @@
 package com.example.board.config;
 
-import com.example.board.domain.Alarm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,7 +10,6 @@ import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 @Configuration
 @EnableRedisRepositories
@@ -46,15 +44,6 @@ public class RedisConfig {
     @Bean
     public RedisTemplate<String, String> redisTokenTemplate() {
         RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
-        redisTemplate.setKeySerializer(new StringRedisSerializer());
-        redisTemplate.setValueSerializer(new StringRedisSerializer());
-        redisTemplate.setConnectionFactory(redisConnectionFactory());
-        return redisTemplate;
-    }
-
-    @Bean
-    public RedisTemplate<String, SseEmitter> redisAlarmTemplate() {
-        RedisTemplate<String, SseEmitter> redisTemplate = new RedisTemplate<>();
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setValueSerializer(new StringRedisSerializer());
         redisTemplate.setConnectionFactory(redisConnectionFactory());

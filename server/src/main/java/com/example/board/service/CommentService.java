@@ -8,10 +8,12 @@ import com.example.board.dto.CommentDto;
 import com.example.board.exception.BoardApplicationException;
 import com.example.board.exception.ErrorCode;
 import com.example.board.repository.CommentRepository;
+import com.example.board.repository.EmitterRepository;
 import com.example.board.repository.PostRepository;
 import com.example.board.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +29,8 @@ public class CommentService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final AlarmService alarmService;
+    private final RedisAlarmPublisher redisAlarmPublisher;
+    private final EmitterRepository emitterRepository;
 
 
     public List<CommentDto> commentList(Long postId) {
@@ -46,7 +50,12 @@ public class CommentService {
                 .orElseThrow(() -> new BoardApplicationException(ErrorCode.USER_NOT_FOUND));
         AlarmDto alarmDto = alarmService.create(username, post.getUser().getUsername(), postId);
         if (alarmDto != null) {
-            alarmService.send(alarmDto.getId(), post.getUser().getId());
+            ChannelTopic topic = emitterRepository.getTopic(post.getUser().getId());
+            if (topic == null) {
+                topic = new ChannelTopic("Emitter:UID" + post.getUser().getId());
+                emitterRepository.putTopic(post.getUser().getId(), topic);
+            }
+            redisAlarmPublisher.publish(emitterRepository.getTopic(post.getUser().getId()), post.getUser().getId());
         }
         return CommentDto.fromComment(commentRepository.save(Comment.of(content, post, user)));
     }
@@ -61,6 +70,15 @@ public class CommentService {
                 .orElseThrow(() -> new BoardApplicationException(ErrorCode.COMMENT_NOT_FOUND));
         Comment comment = Comment.of(content, post, user, parent);
         parent.addChild(comment);
+        AlarmDto alarmDto = alarmService.create(username, parent.getUser().getUsername(), postId);
+        if (alarmDto != null) {
+            ChannelTopic topic = emitterRepository.getTopic(post.getUser().getId());
+            if (topic == null) {
+                topic = new ChannelTopic("Emitter:UID" + post.getUser().getId());
+                emitterRepository.putTopic(post.getUser().getId(), topic);
+            }
+            redisAlarmPublisher.publish(emitterRepository.getTopic(parent.getUser().getId()), parent.getUser().getId());
+        }
         return CommentDto.fromComment(commentRepository.save(comment));
     }
 

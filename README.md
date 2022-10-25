@@ -24,11 +24,13 @@
     - Spring Security lts
     - MySQL 8+
     - Jwt
-          - refresh token : 10.17
+      - refresh token : 10.17
     - WebSocket
     - Stomp
+    - SSE
     - redis
-		- live chat service : 10.19
+        - live chat service : 10.19
+        - SSE alarm : 10.25
 
 <br />
 
