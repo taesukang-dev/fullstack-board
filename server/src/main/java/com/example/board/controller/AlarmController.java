@@ -4,8 +4,12 @@ import com.example.board.dto.request.AlarmRequest;
 import com.example.board.dto.response.AlarmResponse;
 import com.example.board.dto.response.Response;
 import com.example.board.dto.security.UserPrincipal;
+import com.example.board.repository.EmitterRepository;
 import com.example.board.service.AlarmService;
+import com.example.board.service.RedisAlarmSubscriber;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.listener.ChannelTopic;
+import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -19,9 +23,16 @@ import java.util.stream.Collectors;
 public class AlarmController {
 
     private final AlarmService alarmService;
+    private final RedisMessageListenerContainer redisMessageListener;
+    private final RedisAlarmSubscriber redisAlarmSubscriber;
+    private final EmitterRepository emitterRepository;
 
     @GetMapping("/subscribe")
     public SseEmitter subscribe(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        // TODO : Util로 빼기
+        ChannelTopic topic = new ChannelTopic("Emitter:UID" + userPrincipal.getId());
+        redisMessageListener.addMessageListener(redisAlarmSubscriber, topic);
+        emitterRepository.putTopic(userPrincipal.getId(), topic);
         return alarmService.connectAlarm(userPrincipal.getId());
     }
 
