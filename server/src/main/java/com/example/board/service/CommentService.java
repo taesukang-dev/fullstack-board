@@ -72,6 +72,11 @@ public class CommentService {
         parent.addChild(comment);
         AlarmDto alarmDto = alarmService.create(username, parent.getUser().getUsername(), postId);
         if (alarmDto != null) {
+            ChannelTopic topic = emitterRepository.getTopic(post.getUser().getId());
+            if (topic == null) {
+                topic = new ChannelTopic("Emitter:UID" + post.getUser().getId());
+                emitterRepository.putTopic(post.getUser().getId(), topic);
+            }
             redisAlarmPublisher.publish(emitterRepository.getTopic(parent.getUser().getId()), parent.getUser().getId());
         }
         return CommentDto.fromComment(commentRepository.save(comment));
