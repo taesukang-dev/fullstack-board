@@ -48,7 +48,7 @@ const SignedHeader = () => {
                     <Text>{username.current}</Text>
                     <div>
                         <Button warn={warn} _onClick={() => {
-                            setWarn(!warn)
+                            setWarn(false)
                             dispatch(showModal(!alarmModal.visible))
                         }} padding={"10px"}>알림</Button>
                         { alarmModal.visible && <AlarmModal/> }
