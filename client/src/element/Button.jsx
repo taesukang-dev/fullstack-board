@@ -29,6 +29,7 @@ const Button = (props) => {
 
 Button.defaultProps = {
     children: false,
+    warn: "false",
     margin: "",
     padding: "",
     width: "",
@@ -46,7 +47,7 @@ const ButtonBox = styled(motion.button)`
     background: ${(props) => props.bg !== "false" ? props.bg : "white"};
     color: ${(props) => props.color ? props.color : "#304458"};
     font-size: 16px;
-    border: ${(props) => props.warn === true ? "1px solid #c4302b" : "1px solid #ABABAB"};
+    border: ${(props) => props.warn === "true" ? "1px solid #c4302b" : "1px solid #ABABAB"};
     cursor: pointer;
 `
 

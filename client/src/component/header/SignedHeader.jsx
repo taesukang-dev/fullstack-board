@@ -41,13 +41,13 @@ const SignedHeader = () => {
     return (
         <>
             <s.GridBox>
-                <div onClick={() => navigate('/')}>
-                    hey guys!
+                <div onClick={() => navigate('/')} style={{cursor: "pointer"}}>
+                    📪📪📪
                 </div>
                 <s.LoggedBox>
                     <Text>{username.current}</Text>
                     <div>
-                        <Button warn={warn} _onClick={() => {
+                        <Button warn={warn.toString()} _onClick={() => {
                             setWarn(false)
                             dispatch(showModal(!alarmModal.visible))
                         }} padding={"10px"}>알림</Button>
