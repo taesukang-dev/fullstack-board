@@ -10,7 +10,7 @@ const Header = () => {
     return (
         <s.GridBox>
             <div onClick={() => navigate('/')}>
-                hey guys!
+                📪📪📪
             </div>
             <s.SideBox>
                 <Button padding={"10px"} _onClick={() => navigate('/signup')}>
